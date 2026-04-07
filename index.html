@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Study Planner</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f0f2f5;
+      margin: 0;
+    }
+
+    header {
+      background: #1e1e2f;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .input-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .delete {
+      background: red;
+      border-radius: 5px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header>📚 Study Planner</header>
+
+<div class="container">
+
+  <div class="input-box">
+    <input id="taskInput" placeholder="Enter your task..." />
+    <button onclick="addTask()">Add</button>
+  </div>
+
+  <ul id="taskList"></ul>
+
+</div>
+
+<script>
+
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const text = input.value;
+
+  if (text === "") return;
+
+  const li = document.createElement("li");
+
+  li.innerHTML = `
+    <span onclick="toggleDone(this)">${text}</span>
+    <button class="delete" onclick="deleteTask(this)">X</button>
+  `;
+
+  document.getElementById("taskList").appendChild(li);
+
+  input.value = "";
+}
+
+function deleteTask(btn) {
+  btn.parentElement.remove();
+}
+
+function toggleDone(el) {
+  el.classList.toggle("done");
+}
+
+</script>
+
+</body>
+</html>
