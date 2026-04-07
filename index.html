@@ -94,12 +94,25 @@
 
 <script>
 
+// Load saved tasks when page opens
+window.onload = function () {
+  const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+  saved.forEach(task => createTask(task.text, task.done));
+};
+
 function addTask() {
   const input = document.getElementById("taskInput");
   const text = input.value;
 
   if (text === "") return;
 
+  createTask(text, false);
+  saveTasks();
+
+  input.value = "";
+}
+
+function createTask(text, isDone) {
   const li = document.createElement("li");
 
   li.innerHTML = `
@@ -107,20 +120,39 @@ function addTask() {
     <button class="delete" onclick="deleteTask(this)">X</button>
   `;
 
-  document.getElementById("taskList").appendChild(li);
+  if (isDone) {
+    li.querySelector("span").classList.add("done");
+  }
 
-  input.value = "";
+  document.getElementById("taskList").appendChild(li);
 }
 
 function deleteTask(btn) {
   btn.parentElement.remove();
+  saveTasks();
 }
 
 function toggleDone(el) {
   el.classList.toggle("done");
+  saveTasks();
+}
+
+// Save tasks to browser
+function saveTasks() {
+  const tasks = [];
+
+  document.querySelectorAll("#taskList li").forEach(li => {
+    tasks.push({
+      text: li.querySelector("span").innerText,
+      done: li.querySelector("span").classList.contains("done")
+    });
+  });
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 </script>
+
 
 </body>
 </html>
